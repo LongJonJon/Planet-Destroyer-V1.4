@@ -18,13 +18,13 @@ public class RelativeLineRender : MonoBehaviour {
         focuses = objects;
 
         // copy base line renderer
-        LineRenderer thisLr = this.GetComponent<LineRenderer> ();
+        LineRenderer thisLr = GetComponent<LineRenderer> ();
         UnityEditorInternal.ComponentUtility.CopyComponent (thisLr);
         // create the line renderers
         GameObject goLr;
         foreach (OrbitingBody o in objects) {
             goLr = new GameObject (o.name + " LineRender");
-            goLr.transform.SetParent (this.transform, true);
+            goLr.transform.SetParent (transform, true);
             goLr.transform.localPosition = Vector3.zero;
 
             LineRenderer lr = goLr.AddComponent<LineRenderer> () as LineRenderer;
@@ -37,7 +37,7 @@ public class RelativeLineRender : MonoBehaviour {
         // set up previous line renders
         Quaternion oldrot = manager.SolarSystem.transform.rotation;
         manager.SolarSystem.transform.rotation = new Quaternion ();
-        this.transform.position = origin.transform.position;
+        transform.position = origin.transform.position;
         for (var i = -amount; i < 0; i++) {
             manager.TimeStep (i * Time.deltaTime);
             UpdatePos (true);
@@ -50,7 +50,7 @@ public class RelativeLineRender : MonoBehaviour {
         if (!skip) {
             oldrot = manager.SolarSystem.transform.rotation;
             manager.SolarSystem.transform.rotation = new Quaternion ();
-            this.transform.position = origin.transform.position;
+            transform.position = origin.transform.position;
         }
 
         for (var o = 0; o < focuses.Length; o++) {

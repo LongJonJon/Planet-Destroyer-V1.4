@@ -14,18 +14,18 @@ public class MoonOrbit : MonoBehaviour {
     public void AddChild (OrbitingBody c) => children.Add (c);
 
     public void ResetOrbit () {
-        this.transform.localRotation = oRot;
-        this.transform.localPosition = Vector3.zero;
+        transform.localRotation = oRot;
+        transform.localPosition = Vector3.zero;
 
         foreach (OrbitingBody c in children) {
-            c.transform.SetParent (this.transform, true);
+            c.transform.SetParent (transform, true);
             c.transform.localRotation = new Quaternion ();
         }
     }
 
     public void ReflectOrbit (OrbitingBody o) {
-        this.transform.localPosition = Vector3.zero;
-        this.transform.localRotation = oRot;
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = oRot;
         parent.ReflectOrbit (o);
     }
 }
