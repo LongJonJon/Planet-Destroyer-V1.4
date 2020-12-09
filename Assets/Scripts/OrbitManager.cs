@@ -34,7 +34,7 @@ public class OrbitManager : MonoBehaviour {
             o.UpdatePos (0, true);
         }
 
-        RelativeLineRender rlr = GameObject.FindObjectOfType<RelativeLineRender> ();
+        RelativeLineRenderManager rlr = GameObject.FindObjectOfType<RelativeLineRenderManager> ();
         if (rlr) rlr.LateStart (focus, solarSystemObjects);
         Debug.Log ("Time: " + Time.realtimeSinceStartup);
     }
@@ -44,7 +44,7 @@ public class OrbitManager : MonoBehaviour {
         time += Time.deltaTime;
 
         // multithreading?
-        RelativeLineRender rlr = GameObject.FindObjectOfType<RelativeLineRender> ();
+        RelativeLineRenderManager rlr = GameObject.FindObjectOfType<RelativeLineRenderManager> ();
         foreach (OrbitingBody o in solarSystemObjects) {
             if (o != focus)
                 o.UpdatePos (time);

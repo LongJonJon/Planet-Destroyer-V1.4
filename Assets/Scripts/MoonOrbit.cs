@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoonOrbit : MonoBehaviour {
-    public OrbitingBody parent;
-    public List<OrbitingBody> children = new List<OrbitingBody> ();
+    OrbitingBody parent;
+    List<OrbitingBody> children = new List<OrbitingBody> ();
     public Quaternion oRot;
     public void Setup (OrbitingBody _parent, Quaternion _oRot) {
         parent = _parent;

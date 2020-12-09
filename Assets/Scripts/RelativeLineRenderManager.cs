@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent (typeof (LineRenderer))]
-public class RelativeLineRender : MonoBehaviour {
+public class RelativeLineRenderManager : MonoBehaviour {
     public int amount = 120;
+    Vector3 pScale;
 
     List<LineRenderer> lineRenderers = new List<LineRenderer> ();
     OrbitingBody[] focuses;
@@ -34,10 +35,10 @@ public class RelativeLineRender : MonoBehaviour {
         }
         thisLr.enabled = false;
         PreRender ();
-        // set up previous line renders
     }
 
     void PreRender () {
+        pScale = manager.SolarSystem.transform.localScale;
         Quaternion oldrot = manager.SolarSystem.transform.rotation;
         manager.SolarSystem.transform.rotation = new Quaternion ();
         transform.position = origin.transform.position;
@@ -49,12 +50,8 @@ public class RelativeLineRender : MonoBehaviour {
     }
 
     public void UpdatePos (bool skip = false) {
-        Vector3 l = manager.SolarSystem.transform.localScale;
-        if (transform.localScale != new Vector3 (1 / l.x, 1 / l.y, 1 / l.z)) {
-            transform.localScale = new Vector3 (1 / l.x, 1 / l.y, 1 / l.z);
+        if (pScale != manager.SolarSystem.transform.localScale)
             PreRender ();
-            Debug.Log("here");
-        }
 
         Quaternion oldrot = new Quaternion ();
         if (!skip) {
@@ -71,6 +68,7 @@ public class RelativeLineRender : MonoBehaviour {
 
             Array.Resize (ref p, p.Length + 1);
             p[p.Length - 1] = focuses[o].transform.position - origin.transform.position;
+            lineRenderers[o].widthMultiplier = focuses[o].radius * pScale.magnitude;
 
             if (p.Length > amount) {
                 Vector3[] _p = new Vector3[amount];

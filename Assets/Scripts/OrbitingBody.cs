@@ -6,6 +6,8 @@ public class OrbitingBody : MonoBehaviour {
     public enum Significance { Sun = 0, Planet = 1, Moon = 2 }
     public Significance type;
     public float frequency;
+    float _radius;
+    public float radius { get { return _radius; } }
     public GameObject moonOrbit;
     public Transform originalOrbiting;
     public Transform orbiting;
@@ -32,6 +34,7 @@ public class OrbitingBody : MonoBehaviour {
         }
 
         distance = Vector3.Distance (transform.position, parent.transform.position);
+        _radius = GetComponent<SphereCollider> ().radius;
     }
 
     public Transform MoonsObject (OrbitingBody c) {
