@@ -46,25 +46,24 @@ public class OrbitManager : MonoBehaviour {
         // multithreading?
         RelativeLineRender rlr = GameObject.FindObjectOfType<RelativeLineRender> ();
         foreach (OrbitingBody o in solarSystemObjects) {
-            if (o == focus)
-                focus.transform.position = Vector3.Lerp (priorloc, SolarSystem.transform.position, focusDelta);
-            else o.UpdatePos (time);
+            if (o != focus)
+                o.UpdatePos (time);
         }
-
         if (rlr) rlr.UpdatePos ();
 
         focusDelta = Time.deltaTime;
         if (lock2Sun) Lock2Sun ();
         else sundelta = sun.transform.position - SolarSystem.transform.position;
+
+        // fix fittering that occurs with this
+        focus.transform.position = Vector3.Lerp (focus.transform.position, SolarSystem.transform.position, focusDelta);
     }
 
     void Lock2Sun () {
         Vector3 oldpos = SolarSystem.transform.position;
         SolarSystem.transform.rotation = Quaternion.identity;
         SolarSystem.transform.position = Vector3.zero;
-
         SolarSystem.transform.eulerAngles = Vector3.up * (Quaternion.LookRotation (sundelta).eulerAngles.y - Quaternion.LookRotation (sun.transform.position).eulerAngles.y);
-
         SolarSystem.transform.position = oldpos;
     }
 
@@ -87,6 +86,6 @@ public class OrbitManager : MonoBehaviour {
 
     public void TimeStep (float _time) {
         foreach (OrbitingBody o in solarSystemObjects)
-            o.UpdatePos (_time);
+            o.UpdatePos (_time + time);
     }
 }

@@ -33,8 +33,11 @@ public class RelativeLineRender : MonoBehaviour {
             if (o.type == OrbitingBody.Significance.Sun) lr.enabled = false;
         }
         thisLr.enabled = false;
-
+        PreRender ();
         // set up previous line renders
+    }
+
+    void PreRender () {
         Quaternion oldrot = manager.SolarSystem.transform.rotation;
         manager.SolarSystem.transform.rotation = new Quaternion ();
         transform.position = origin.transform.position;
@@ -46,6 +49,13 @@ public class RelativeLineRender : MonoBehaviour {
     }
 
     public void UpdatePos (bool skip = false) {
+        Vector3 l = manager.SolarSystem.transform.localScale;
+        if (transform.localScale != new Vector3 (1 / l.x, 1 / l.y, 1 / l.z)) {
+            transform.localScale = new Vector3 (1 / l.x, 1 / l.y, 1 / l.z);
+            PreRender ();
+            Debug.Log("here");
+        }
+
         Quaternion oldrot = new Quaternion ();
         if (!skip) {
             oldrot = manager.SolarSystem.transform.rotation;
