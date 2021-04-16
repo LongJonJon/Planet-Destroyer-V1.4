@@ -61,8 +61,9 @@ public class RelativeLineRenderManager : MonoBehaviour {
         }
 
         for (var o = 0; o < focuses.Length; o++) {
-            if (focuses[o].type == OrbitingBody.Significance.Sun) continue;
-            if (!focuses[o]) continue; // incase if planet was destroyed
+            if (focuses[o].type == OrbitingBody.Significance.Sun || !focuses[o])
+                continue;
+
             Vector3[] p = new Vector3[lineRenderers[o].positionCount];
             lineRenderers[o].GetPositions (p);
 
